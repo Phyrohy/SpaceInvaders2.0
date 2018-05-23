@@ -25,4 +25,5 @@ public class Vaisseau {
 	public void seDeplacerVersLaGauche() {
 		 this.x = this.x + 1 ;
 	}	
+	//sddk
 }
