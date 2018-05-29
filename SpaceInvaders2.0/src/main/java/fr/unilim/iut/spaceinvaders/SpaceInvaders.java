@@ -1,12 +1,18 @@
 package fr.unilim.iut.spaceinvaders;
 import fr.unilim.iut.spaceinvaders.Vaisseau;
+import fr.unilim.iut.spaceinvaders.moteurjeu.Commande;
+import fr.unilim.iut.spaceinvaders.moteurjeu.Jeu;
+import fr.unilim.fr.spaceinvaders.utils.DebordementEspaceJeuException;
+import fr.unilim.fr.spaceinvaders.utils.HorsEspaceJeuException;
+import fr.unilim.fr.spaceinvaders.utils.MissileException;
 import fr.unilim.iut.spaceinvaders.Constante;
 
-public class SpaceInvaders {
+public class SpaceInvaders implements Jeu{
 
 	private int longueur; 
 	private int hauteur;
 	Vaisseau vaisseau;
+	Missile missile;
 	
 	public SpaceInvaders(int longueur, int hauteur) {
 		this.longueur = longueur;
@@ -33,16 +39,21 @@ public class SpaceInvaders {
 		return espaceDeJeu.toString();
 	}
 
-	private char recupererMarqueDeLaPosition(int y, int x) {
+	private char recupererMarqueDeLaPosition(int x, int y) {
 		char marque;
 		if (this.aUnVaisseauQuiOccupeLaPosition(x, y))
-		      marque=Constante.MARQUE_VAISSEAU;
-		else
-		      marque=Constante.MARQUE_VIDE;
+			marque = Constante.MARQUE_VAISSEAU;
+		else if (this.aUnMissileQuiOccupeLaPosition(x, y))
+				marque = Constante.MARQUE_MISSILE;
+		else marque = Constante.MARQUE_VIDE;
 		return marque;
 	}
 
-public void positionnerUnNouveauVaisseau(Dimension dimension, Position position, int vitesse) {
+	private boolean aUnMissileQuiOccupeLaPosition(int x, int y) {
+		return aUnMissileQuiOccupeLaPosition(x, y);
+	}
+
+	public void positionnerUnNouveauVaisseau(Dimension dimension, Position position, int vitesse) {
 		
 		int x = position.abscisse();
 		int y = position.ordonnee();
@@ -73,7 +84,7 @@ public void positionnerUnNouveauVaisseau(Dimension dimension, Position position,
 		if (vaisseau.abscisseLaPlusADroite() < (longueur - 1)) {
 			vaisseau.seDeplacerVersLaDroite();
 			if (!estDansEspaceJeu(vaisseau.abscisseLaPlusADroite(), vaisseau.ordonneeLaPlusHaute())) {
-				vaisseau.positionner(longueur - vaisseau.longueur(), vaisseau.ordonneeLaPlusHaute());
+				vaisseau.positionner(longueur - vaisseau.longueur, vaisseau.ordonneeLaPlusHaute());
 			}
 		}
 	}
@@ -95,6 +106,24 @@ public void positionnerUnNouveauVaisseau(Dimension dimension, Position position,
 			espaceDeJeu.append(Constante.MARQUE_FIN_LIGNE);
 		}
 		return espaceDeJeu.toString();
+	}
+	
+	public void tirerUnMissile(Dimension dimensionMissile, int vitesseMissile) {
+		
+		   if ((vaisseau.hauteur()+ dimensionMissile.hauteur()) > this.hauteur )
+			   throw new MissileException("Pas assez de hauteur libre entre le vaisseau et le haut de l'espace jeu pour tirer le missile");
+							
+		   this.missile =this.vaisseau.tirerUnMissile(dimensionMissile, vitesseMissile);
+    }
+
+	public void evoluer(Commande commandeUser) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public boolean etreFini() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 }

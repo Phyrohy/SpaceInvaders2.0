@@ -29,7 +29,7 @@ public abstract class Sprite {
 	   return (abscisseLaPlusAGauche() <= x) && (x <= abscisseLaPlusADroite());
 	}
 
-	private int ordonneeLaPlusBasse() {
+	protected int ordonneeLaPlusBasse() {
 	    return this.origine.ordonnee() - this.dimension.hauteur() + 1;
 	}
 
