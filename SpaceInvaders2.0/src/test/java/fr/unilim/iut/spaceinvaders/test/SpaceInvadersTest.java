@@ -7,7 +7,9 @@ import org.junit.Before;
 
 import fr.unilim.iut.spaceinvaders.SpaceInvaders;
 import fr.unilim.iut.spaceinvaders.HorsEspaceJeuException;
+import fr.unilim.iut.spaceinvaders.Position;
 import fr.unilim.iut.spaceinvaders.DebordementEspaceJeuException;
+import fr.unilim.iut.spaceinvaders.Dimension;
 
 public class SpaceInvadersTest {
 	
@@ -137,59 +139,96 @@ public class SpaceInvadersTest {
 			"........VVV....\n" , spaceinvaders.recupererEspaceJeuDansChaineASCII());
 		}
 	 
-	 @Test
-		public void test_VaisseauImmobile_DeplacerVaisseauVersLaDroite() {
-			
-			spaceinvaders.positionnerUnNouveauVaisseau(3,2,12,9);
-			spaceinvaders.deplacerVaisseauVersLaDroite();
-			assertEquals("" + 
-			"...............\n" + 
-			"...............\n" +
-			"...............\n" + 
-			"...............\n" + 
-			"...............\n" + 
-			"...............\n" + 
-			"...............\n" + 
-			"...............\n" + 
-			"............VVV\n" + 
-			"............VVV\n" , spaceinvaders.recupererEspaceJeuDansChaineASCII());
-		}
+	 public void test_VaisseauAvance_DeplacerVaisseauVersLaDroite_AvecVitesse() {
+
+	       spaceinvaders.positionnerUnNouveauVaisseau(new Dimension(3,2),new Position(7,9),3);
+	       spaceinvaders.deplacerVaisseauVersLaDroite();
+	       assertEquals("" + 
+	       "...............\n" + 
+	       "...............\n" +
+	       "...............\n" + 
+	       "...............\n" + 
+	       "...............\n" + 
+	       "...............\n" + 
+	       "...............\n" + 
+	       "...............\n" + 
+	       "..........VVV..\n" + 
+	       "..........VVV..\n" , spaceinvaders.recupererEspaceJeuDansChaineASCII());
+	   }
 	 
 	 @Test
-		public void test_VaisseauAvance_DeplacerVaisseauVersLaGauche() {
-			
-			spaceinvaders.positionnerUnNouveauVaisseau(3,2,7,9);
-			spaceinvaders.deplacerVaisseauVersLaGauche();
-		
-			assertEquals("" + 
-			"...............\n" + 
-			"...............\n" +
-			"...............\n" + 
-			"...............\n" + 
-			"...............\n" + 
-			"...............\n" + 
-			"...............\n" + 
-			"...............\n" + 
-			"......VVV......\n" + 
-			"......VVV......\n" , spaceinvaders.recupererEspaceJeuDansChaineASCII());
+	    public void test_VaisseauImmobile_DeplacerVaisseauVersLaDroite() {
+
+	       spaceinvaders.positionnerUnNouveauVaisseau(new Dimension(3,2),new Position(12,9), 1);
+	       spaceinvaders.deplacerVaisseauVersLaDroite();
+	       assertEquals("" + 
+	       "...............\n" + 
+	       "...............\n" +
+	       "...............\n" + 
+	       "...............\n" + 
+	       "...............\n" + 
+	       "...............\n" + 
+	       "...............\n" + 
+	       "...............\n" + 
+	       "............VVV\n" + 
+	       "............VVV\n" , spaceinvaders.recupererEspaceJeuDansChaineASCII());
 	    }
+	 
 	 @Test
-		public void test_VaisseauAvecDimensionImmobile_DeplacerVaisseauVersLaGauche() {
-			
-			spaceinvaders.positionnerUnNouveauVaisseau(3,2,0,9);
-			spaceinvaders.deplacerVaisseauVersLaGauche();
-			
-			assertEquals("" + 
-			"...............\n" + 
-			"...............\n" +
-			"...............\n" + 
-			"...............\n" + 
-			"...............\n" + 
-			"...............\n" + 
-			"...............\n" + 
-			"...............\n" + 
-			"VVV............\n" + 
-			"VVV............\n" , spaceinvaders.recupererEspaceJeuDansChaineASCII());
-		}
+	    public void test_VaisseauAvance_DeplacerVaisseauVersLaGauche() {
+
+	       spaceinvaders.positionnerUnNouveauVaisseau(new Dimension(3,2),new Position(7,9), 3);
+	       spaceinvaders.deplacerVaisseauVersLaGauche();
+
+	       assertEquals("" + 
+	       "...............\n" + 
+	       "...............\n" +
+	       "...............\n" + 
+	       "...............\n" + 
+	       "...............\n" + 
+	       "...............\n" + 
+	       "...............\n" + 
+	       "...............\n" + 
+	       "....VVV........\n" + 
+	       "....VVV........\n" , spaceinvaders.recupererEspaceJeuDansChaineASCII());
+	   }
+	 
+	  @Test
+	    public void test_VaisseauImmobile_DeplacerVaisseauVersLaGauche() {
+
+		   spaceinvaders.positionnerUnNouveauVaisseau(new Dimension(3,2),new Position(0,9), 3);
+	       spaceinvaders.deplacerVaisseauVersLaGauche();
+
+	       assertEquals("" + 
+	       "...............\n" + 
+	       "...............\n" +
+	       "...............\n" + 
+	       "...............\n" + 
+	       "...............\n" + 
+	       "...............\n" + 
+	       "...............\n" + 
+	       "...............\n" + 
+	       "VVV............\n" + 
+	       "VVV............\n" , spaceinvaders.recupererEspaceJeuDansChaineASCII());
+	     }
+	  
+	  @Test
+	    public void test_VaisseauAvancePartiellement_DeplacerVaisseauVersLaGauche() {
+
+	       spaceinvaders.positionnerUnNouveauVaisseau(new Dimension(3,2),new Position(1,9), 3);
+	       spaceinvaders.deplacerVaisseauVersLaGauche();
+
+	       assertEquals("" + 
+	       "...............\n" + 
+	       "...............\n" +
+	       "...............\n" + 
+	       "...............\n" + 
+	       "...............\n" + 
+	       "...............\n" + 
+	       "...............\n" + 
+	       "...............\n" + 
+	       "VVV............\n" + 
+	       "VVV............\n" , spaceinvaders.recupererEspaceJeuDansChaineASCII());
+	     }
 
 }
