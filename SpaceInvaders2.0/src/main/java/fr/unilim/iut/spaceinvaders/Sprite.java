@@ -1,5 +1,7 @@
 package fr.unilim.iut.spaceinvaders;
 
+import fr.unilim.iut.spaceinvaders.moteurjeu.Commande;
+
 public abstract class Sprite {
 
 	protected Position origine;
@@ -29,11 +31,11 @@ public abstract class Sprite {
 	   return (abscisseLaPlusAGauche() <= x) && (x <= abscisseLaPlusADroite());
 	}
 
-	protected int ordonneeLaPlusBasse() {
+	public int ordonneeLaPlusBasse() {
 	    return this.origine.ordonnee() - this.dimension.hauteur() + 1;
 	}
 
-	protected int ordonneeLaPlusHaute() {
+	public int ordonneeLaPlusHaute() {
 		   return this.origine.ordonnee();
 	   }
 
@@ -45,17 +47,28 @@ public abstract class Sprite {
 		   return this.origine.abscisse();
 	   }
 
-	public void seDeplacerVersLaDroite() {
-		this.origine.changerAbscisse(this.origine.abscisse() + vitesse);
+	public void deplacerHorizontalementVers(Direction direction) {
+		this.origine.changerAbscisse(this.origine.abscisse() + direction.valeur() * vitesse);
 	}
 
-	public void seDeplacerVersLaGauche() {
-		this.origine.changerAbscisse(this.origine.abscisse() - vitesse);
+	public void deplacerVerticalementVers(Direction direction) {
+		this.origine.changerOrdonnee(this.origine.ordonnee() + direction.valeur() * vitesse);
 	}
 
 	public void positionner(int x, int y) {
-		   this.origine.changerAbscisse(x);
-		   this.origine.changerOrdonnee(y);
-	   }
+		this.origine.changerAbscisse(x);
+		this.origine.changerOrdonnee(y);
+	}
 
+	public void deplacer(Commande commandeUser) {
+
+	}
+
+	public int hauteur() {
+		return this.dimension.hauteur();
+	}
+
+	public int longueur() {
+		return this.dimension.longueur();
+	}
 }

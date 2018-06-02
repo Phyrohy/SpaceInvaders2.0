@@ -41,7 +41,7 @@ public class Controleur implements KeyListener {
 		return (aRetourner);
 	}
 
-	@Override
+	
 	/**
 	 * met a jour les commandes en fonctions des touches appuyees
 	 */
@@ -68,11 +68,16 @@ public class Controleur implements KeyListener {
 			this.commandeEnCours.bas = true;
 			this.commandeARetourner.bas = true;
 			break;
+			
+		case KeyEvent.VK_SPACE:
+			this.commandeEnCours.tir = true;
+			this.commandeARetourner.tir = true;
+			break;	
 		}
 
 	}
 
-	@Override
+	
 	/**
 	 * met a jour les commandes quand le joueur relache une touche
 	 */
@@ -90,11 +95,14 @@ public class Controleur implements KeyListener {
 		case 's':
 			this.commandeEnCours.bas = false;
 			break;
+		case KeyEvent.VK_SPACE:
+			this.commandeEnCours.tir = false;
+			break;
 		}
 
 	}
 
-	@Override
+	
 	/**
 	 * ne fait rien
 	 */

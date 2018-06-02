@@ -6,13 +6,11 @@ public class Vaisseau extends Sprite {
 		super(dimension, positionOrigine, vitesse);
 	}
 
-	public void tirerUnMissile(Dimension dimensionMissile, int vitesseMissile) {
-		
-		   if ((vaisseau.hauteur()+ dimensionMissile.hauteur()) > this.hauteur )
-			   throw new MissileException("Pas assez de hauteur libre entre le vaisseau et le haut de l'espace jeu pour tirer le missile");
-							
-		   this.missile = this.vaisseau.tirerUnMissile(dimensionMissile,vitesseMissile);
-    }
+	 public Missile tirerUnMissile(Dimension dimensionMissile, int vitesseMissile) {
+			
+			Position positionOrigineMissile = calculerLaPositionDeTirDuMissile(dimensionMissile);
+			return new Missile(dimensionMissile, positionOrigineMissile, vitesseMissile);
+	}
 
 	private Position calculerLaPositionDeTirDuMissile(Dimension dimensionMissile) {
 		int abscisseMilieuVaisseau = this.abscisseLaPlusAGauche() + (this.longueur() / 2);
