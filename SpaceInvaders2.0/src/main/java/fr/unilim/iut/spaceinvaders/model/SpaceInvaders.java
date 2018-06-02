@@ -1,10 +1,8 @@
-package fr.unilim.iut.spaceinvaders;
-import fr.unilim.iut.spaceinvaders.Vaisseau;
+package fr.unilim.iut.spaceinvaders.model;
 import fr.unilim.fr.spaceinvaders.utils.DebordementEspaceJeuException;
 import fr.unilim.fr.spaceinvaders.utils.HorsEspaceJeuException;
 import fr.unilim.fr.spaceinvaders.utils.MissileException;
-import fr.unilim.iut.spaceinvaders.Constante;
-
+import fr.unilim.iut.spaceinvaders.model.Vaisseau;
 import fr.unilim.iut.spaceinvaders.moteurjeu.Commande;
 import fr.unilim.iut.spaceinvaders.moteurjeu.Jeu;
 
@@ -15,6 +13,7 @@ public class SpaceInvaders implements Jeu{
 	private int hauteur;
 	Vaisseau vaisseau;
 	Missile missile;
+	Envahisseur envahisseur;
 	
 	public SpaceInvaders(int longueur, int hauteur) {
 		this.longueur = longueur;
@@ -25,6 +24,9 @@ public class SpaceInvaders implements Jeu{
 		    Position positionVaisseau = new Position(this.longueur/2,this.hauteur-1);
 		    Dimension dimensionVaisseau = new Dimension(Constante.VAISSEAU_LONGUEUR, Constante.VAISSEAU_HAUTEUR);
 		    positionnerUnNouveauVaisseau(dimensionVaisseau, positionVaisseau, Constante.VAISSEAU_VITESSE);
+		    Position positionEnvahisseur = new Position(this.longueur/3,this.hauteur-10);
+		    Dimension dimensionEnvahisseur = new Dimension(Constante.ENVAHISSEUR_LONGUEUR, Constante.ENVAHISSEUR_HAUTEUR);
+		    positionnerUnNouveauVaisseau(dimensionEnvahisseur, positionEnvahisseur, Constante.ENVAHISSEUR_VITESSE);
 	    }
 	
 	@Override
@@ -66,10 +68,27 @@ public class SpaceInvaders implements Jeu{
 	public Missile recupererMissile() {
 		return this.missile;
 	}
+	
+	public boolean aUnEnvahisseur() {
+		return envahisseur != null;
+	}
+	
+	public Envahisseur recupererEnvahisseur() {
+		return this.envahisseur;
+	}
+	
+	private boolean aUnVaisseauQuiOccupeLaPosition(int x, int y) {
+		return aUnVaisseauQuiOccupeLaPosition(x, y);
+	}
 
 	private boolean aUnMissileQuiOccupeLaPosition(int x, int y) {
 		return aUnMissileQuiOccupeLaPosition(x, y);
 	}
+	
+	private boolean aUnEnvahisseurQuiOccupeLaPosition(int x, int y) {
+		return aUnEnvahisseurQuiOccupeLaPosition(x, y);
+	}
+
 
 	public void positionnerUnNouveauVaisseau(Dimension dimension, Position position, int vitesse) {
 		
@@ -89,15 +108,30 @@ public class SpaceInvaders implements Jeu{
 
 		vaisseau = new Vaisseau(dimension,position,vitesse);
 	}
+	
+public void positionnerUnNouvelEnvahisseur(Dimension dimension, Position position, int vitesse) {
+		
+		int x = position.abscisse();
+		int y = position.ordonnee();
+		
+		if (!estDansEspaceJeu(x, y))
+			throw new HorsEspaceJeuException("La position de l'envahisseur est en dehors de l'espace jeu");
+
+		int longueurEnvahisseur = dimension.longueur();
+		int hauteurEnvahisseur = dimension.hauteur();
+		
+		if (!estDansEspaceJeu(x + longueurEnvahisseur - 1, y))
+			throw new DebordementEspaceJeuException("l'envahisseur déborde de l'espace jeu vers la droite à cause de sa longueur");
+		if (!estDansEspaceJeu(x, y - hauteurEnvahisseur + 1))
+			throw new DebordementEspaceJeuException("l'envahisseur déborde de l'espace jeu vers le bas à cause de sa hauteur");
+
+		envahisseur = new Envahisseur(dimension,position,vitesse);
+	}
 
 	private boolean estDansEspaceJeu(int x, int y) {
 		return ((x >= 0) && (x < longueur)) && ((y >= 0) && (y < hauteur));
 	}
 	
-	private boolean aUnVaisseauQuiOccupeLaPosition(int x, int y) {
-		return aUnVaisseauQuiOccupeLaPosition(x, y);
-	}
-
 	public void deplacerVaisseauVersLaDroite() {
 		if (vaisseau.abscisseLaPlusADroite() < (longueur - 1)) {
 			vaisseau.deplacerHorizontalementVers(Direction.DROITE);
@@ -157,16 +191,14 @@ public class SpaceInvaders implements Jeu{
 
 	public boolean etreFini() {
 		return false;
-
 	}
 
 	public void deplacerMissile() {
-	if(0<missile.ordonneeLaPlusHaute()) {
-		missile.deplacerVerticalementVers(Direction.HAUT_ECRAN);
-	}
-	if(!estDansEspaceJeu(missile.abscisseLaPlusAGauche(), missile.ordonneeLaPlusBasse())) {
-		this.missile = null; 
-	}
-		
+		if(0<missile.ordonneeLaPlusHaute()) {
+			missile.deplacerVerticalementVers(Direction.HAUT_ECRAN);
+		}
+		if(!estDansEspaceJeu(missile.abscisseLaPlusAGauche(), missile.ordonneeLaPlusBasse())) {
+			this.missile = null; 
+		}
 	}
 }
