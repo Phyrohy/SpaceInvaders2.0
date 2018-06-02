@@ -24,11 +24,12 @@ public class SpaceInvaders implements Jeu{
 		    Position positionVaisseau = new Position(this.longueur/2,this.hauteur-1);
 		    Dimension dimensionVaisseau = new Dimension(Constante.VAISSEAU_LONGUEUR, Constante.VAISSEAU_HAUTEUR);
 		    positionnerUnNouveauVaisseau(dimensionVaisseau, positionVaisseau, Constante.VAISSEAU_VITESSE);
-		    Position positionEnvahisseur = new Position(this.longueur/3,this.hauteur-10);
-		    Dimension dimensionEnvahisseur = new Dimension(Constante.ENVAHISSEUR_LONGUEUR, Constante.ENVAHISSEUR_HAUTEUR);
-		    positionnerUnNouveauVaisseau(dimensionEnvahisseur, positionEnvahisseur, Constante.ENVAHISSEUR_VITESSE);
-	    }
-	
+		    Position positionEnvahisseur = new Position(this.longueur - Constante.ENVAHISSEUR_LONGUEUR * 2,
+					Constante.ESPACEJEU_HAUTEUR / 10 + Constante.ENVAHISSEUR_HAUTEUR);
+			Dimension dimensionEnvahisseur = new Dimension(Constante.ENVAHISSEUR_LONGUEUR,
+					Constante.ENVAHISSEUR_HAUTEUR);
+			positionnerUnNouvelEnvahisseur(dimensionEnvahisseur, positionEnvahisseur, Constante.ENVAHISSEUR_VITESSE);
+	  }
 	@Override
 	public String toString() {
 		StringBuilder espaceDeJeu = new StringBuilder();
@@ -186,7 +187,9 @@ public void positionnerUnNouvelEnvahisseur(Dimension dimension, Position positio
 			deplacerMissile();
 		}
 
-
+		if (aUnEnvahisseur()) {
+			deplacerEnvahisseurDansLeSens();
+		}
 	}
 
 	public boolean etreFini() {
@@ -199,6 +202,37 @@ public void positionnerUnNouvelEnvahisseur(Dimension dimension, Position positio
 		}
 		if(!estDansEspaceJeu(missile.abscisseLaPlusAGauche(), missile.ordonneeLaPlusBasse())) {
 			this.missile = null; 
+		}
+	}
+	
+	public void deplacerEnvahisseurVersLaDroite() {
+			if (envahisseur.abscisseLaPlusADroite() < (longueur - 1)) {
+				envahisseur.deplacerHorizontalementVers(Direction.DROITE);
+				if (!estDansEspaceJeu(envahisseur.abscisseLaPlusADroite(), envahisseur.ordonneeLaPlusHaute())) {
+					envahisseur.positionner(longueur - envahisseur.longueur(), envahisseur.ordonneeLaPlusHaute());
+				}
+			}
+	}
+
+	public void deplacerEnvahisseurVersLaGauche() {
+			if (0 < envahisseur.abscisseLaPlusAGauche())
+				envahisseur.deplacerHorizontalementVers(Direction.GAUCHE);
+			if (!estDansEspaceJeu(envahisseur.abscisseLaPlusAGauche(), envahisseur.ordonneeLaPlusHaute())) {
+				envahisseur.positionner(0, envahisseur.ordonneeLaPlusHaute());
+			}
+	}
+
+	public void deplacerEnvahisseurDansLeSens() {
+			if (envahisseur.abscisseLaPlusADroite() == Constante.ESPACEJEU_LONGUEUR - 1) {
+				Envahisseur.setSens(Direction.GAUCHE);
+			}
+			if (envahisseur.abscisseLaPlusAGauche() == 0) {
+				Envahisseur.setSens(Direction.DROITE);
+		}
+		if (Envahisseur.getSens() == Direction.GAUCHE) {
+			this.deplacerEnvahisseurVersLaGauche();
+		} else {
+			this.deplacerEnvahisseurVersLaDroite();
 		}
 	}
 }

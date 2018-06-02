@@ -1,13 +1,13 @@
 package fr.unilim.iut.spaceinvaders.model;
 
-public class Envahisseur extends Sprite {
+public class Envahisseur extends Sprite{
 	
-	private static Direction sens = Direction.GAUCHE;
-	
-	public Envahisseur(Dimension dimension, Position positionOrigine, int vitesse) {
-		super(dimension, positionOrigine, vitesse);
+	private static Direction sens = Direction.DROITE;
+
+	public Envahisseur(Dimension dimensionEnvahisseur, Position positionEnvahisseur, int vitesseEnvahisseur){
+		super(dimensionEnvahisseur, positionEnvahisseur, vitesseEnvahisseur);
 	}
-	
+
 	public static Direction getSens() {
 		return sens;
 	}
