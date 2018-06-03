@@ -14,6 +14,8 @@ public class SpaceInvaders implements Jeu{
 	Vaisseau vaisseau;
 	Missile missile;
 	Envahisseur envahisseur;
+	Collision collision = new Collision ();
+	boolean etreFini = false;
 	
 	public SpaceInvaders(int longueur, int hauteur) {
 		this.longueur = longueur;
@@ -193,16 +195,40 @@ public void positionnerUnNouvelEnvahisseur(Dimension dimension, Position positio
 	}
 
 	public boolean etreFini() {
-		return false;
+		return etreFini;
 	}
-
-	public void deplacerMissile() {
+	
+	public void deplacerMissile(){
 		if(0<missile.ordonneeLaPlusHaute()) {
 			missile.deplacerVerticalementVers(Direction.HAUT_ECRAN);
 		}
-		if(!estDansEspaceJeu(missile.abscisseLaPlusAGauche(), missile.ordonneeLaPlusBasse())) {
-			this.missile = null; 
+		
+		if (aUnEnvahisseur()) {
+			if(detectionCollisionMissilesEnvahisseurs(envahisseur, missile)) {
+				System.out.println("Fin de partie");
+				System.exit(0);
+			}
 		}
+		
+		if(!estDansEspaceJeu(missile.abscisseLaPlusAGauche(), missile.ordonneeLaPlusBasse())) {
+			supprimerMissile(); 
+		}
+	}
+
+	private void supprimerMissile() {
+		this.missile = null;
+	}
+	
+	private void supprimerEnvahisseur() {
+		this.envahisseur = null;
+	}
+	
+	private boolean detectionCollisionMissilesEnvahisseurs(Envahisseur envahisseur, Missile missile) {
+			if (collision.detecterCollision(missile, envahisseur)) {
+				supprimerMissile();
+				supprimerEnvahisseur();
+				return true; 
+			}else { return false; }
 	}
 	
 	public void deplacerEnvahisseurVersLaDroite() {

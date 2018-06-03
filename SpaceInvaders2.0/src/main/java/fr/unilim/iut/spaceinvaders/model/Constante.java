@@ -11,11 +11,11 @@ public class Constante {
 	   
 	   public static final int ENVAHISSEUR_LONGUEUR = 60;
 	   public static final int ENVAHISSEUR_HAUTEUR = 20;
-	   public static final int ENVAHISSEUR_VITESSE = 15;
+	   public static final int ENVAHISSEUR_VITESSE = 10;
 	   
-	   public static final int MISSILE_LONGUEUR = 10;
+	   public static final int MISSILE_LONGUEUR = 25;
 	   public static final int MISSILE_HAUTEUR = 10;
-	   public static final int MISSILE_VITESSE = 15;
+	   public static final int MISSILE_VITESSE = 10;
 	
 	   public static final char MARQUE_FIN_LIGNE = '\n';
 	   public static final char MARQUE_VIDE = '.';

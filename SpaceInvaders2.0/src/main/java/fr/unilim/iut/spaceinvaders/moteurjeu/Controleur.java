@@ -69,6 +69,31 @@ public class Controleur implements KeyListener {
 			this.commandeARetourner.bas = true;
 			break;
 			
+		//	
+		// reglage d'un bug, si on etait en capsMAJ on ne pouvais plus se déplacer
+		//
+			
+		//si on appuie sur 'Q', commande joueur est gauche
+		case 'Q':
+			this.commandeEnCours.gauche = true;
+			this.commandeARetourner.gauche = true;
+			break;
+		// si on appuie sur 'D',commande joueur est droite
+		case 'D':
+			this.commandeEnCours.droite = true;
+			this.commandeARetourner.droite = true;
+			break;
+		// si on appuie sur 'Z',commande joueur est haut
+		case 'Z':
+			this.commandeEnCours.haut = true;
+			this.commandeARetourner.haut = true;
+			break;
+		// si on appuie sur 'S',commande joueur est bas
+		case 'S':
+			this.commandeEnCours.bas = true;
+			this.commandeARetourner.bas = true;
+			break;
+			
 		case KeyEvent.VK_SPACE:
 			this.commandeEnCours.tir = true;
 			this.commandeARetourner.tir = true;
