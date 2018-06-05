@@ -211,7 +211,7 @@ public class SpaceInvaders implements Jeu{
 		
 		if (aUnEnvahisseur()) {
 			if(detectionCollisionMissilesEnvahisseurs(envahisseur, missile)) {
-				System.out.println("Fin de partie");
+				System.out.println("Félicitation vous avez gagné !");
 				System.exit(0);
 			}
 		}
