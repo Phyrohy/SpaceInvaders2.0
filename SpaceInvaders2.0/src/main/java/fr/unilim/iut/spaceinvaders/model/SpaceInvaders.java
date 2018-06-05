@@ -1,10 +1,12 @@
 package fr.unilim.iut.spaceinvaders.model;
+
 import fr.unilim.fr.spaceinvaders.utils.DebordementEspaceJeuException;
 import fr.unilim.fr.spaceinvaders.utils.HorsEspaceJeuException;
 import fr.unilim.fr.spaceinvaders.utils.MissileException;
 import fr.unilim.iut.spaceinvaders.model.Vaisseau;
 import fr.unilim.iut.spaceinvaders.moteurjeu.Commande;
 import fr.unilim.iut.spaceinvaders.moteurjeu.Jeu;
+
 
 
 public class SpaceInvaders implements Jeu{
@@ -81,38 +83,41 @@ public class SpaceInvaders implements Jeu{
 	}
 	
 	private boolean aUnVaisseauQuiOccupeLaPosition(int x, int y) {
-		return aUnVaisseauQuiOccupeLaPosition(x, y);
+		return this.aUnVaisseau() && vaisseau.occupeLaPosition(x, y);
 	}
 
 	private boolean aUnMissileQuiOccupeLaPosition(int x, int y) {
-		return aUnMissileQuiOccupeLaPosition(x, y);
+		if (this.aUnMissile()) {
+			if (missile.occupeLaPosition(x, y)) {
+				return true;
+			}
+		}
+		return false;
 	}
+
 	
-	private boolean aUnEnvahisseurQuiOccupeLaPosition(int x, int y) {
-		return aUnEnvahisseurQuiOccupeLaPosition(x, y);
-	}
-
-
 	public void positionnerUnNouveauVaisseau(Dimension dimension, Position position, int vitesse) {
-		
+
 		int x = position.abscisse();
 		int y = position.ordonnee();
-		
+
 		if (!estDansEspaceJeu(x, y))
 			throw new HorsEspaceJeuException("La position du vaisseau est en dehors de l'espace jeu");
 
 		int longueurVaisseau = dimension.longueur();
 		int hauteurVaisseau = dimension.hauteur();
-		
-		if (!estDansEspaceJeu(x + longueurVaisseau - 1, y))
-			throw new DebordementEspaceJeuException("Le vaisseau déborde de l'espace jeu vers la droite à cause de sa longueur");
-		if (!estDansEspaceJeu(x, y - hauteurVaisseau + 1))
-			throw new DebordementEspaceJeuException("Le vaisseau déborde de l'espace jeu vers le bas à cause de sa hauteur");
 
-		vaisseau = new Vaisseau(dimension,position,vitesse);
+		if (!estDansEspaceJeu(x + longueurVaisseau - 1, y))
+			throw new DebordementEspaceJeuException(
+					"Le vaisseau déborde de l'espace jeu vers la droite à cause de sa longueur");
+		if (!estDansEspaceJeu(x, y - hauteurVaisseau + 1))
+			throw new DebordementEspaceJeuException(
+					"Le vaisseau déborde de l'espace jeu vers le bas à cause de sa hauteur");
+
+		vaisseau = new Vaisseau(dimension, position, vitesse);
 	}
 	
-public void positionnerUnNouvelEnvahisseur(Dimension dimension, Position position, int vitesse) {
+	public void positionnerUnNouvelEnvahisseur(Dimension dimension, Position position, int vitesse) {
 		
 		int x = position.abscisse();
 		int y = position.ordonnee();
@@ -162,6 +167,7 @@ public void positionnerUnNouvelEnvahisseur(Dimension dimension, Position positio
 		}
 		return espaceDeJeu.toString();
 	}
+
 	
 	public void tirerUnMissile(Dimension dimensionMissile, int vitesseMissile) {
 		
